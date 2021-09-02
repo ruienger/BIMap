@@ -1,0 +1,29 @@
+{
+  "name": "@ruienger/bimap",
+  "version": "1.3.2",
+  "description": "BIMap: both-direction map construct, it can get properties form both key or value",
+  "main": "index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ruienger/BIMap.git"
+  },
+  "scripts": {
+    "ts-init": "tsc --init",
+    "compile": "tsc"
+  },
+  "keywords": [
+    "bi-map",
+    "bimap"
+  ],
+  "author": "ruienger <13643610935@163.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ruienger/BIMap.git/issues"
+  },
+  "homepage": "https://github.com/ruienger/BIMap.git#readme",
+  "devDependencies": {
+    "@types/node": "^16.7.10",
+    "typescript": "^4.4.2"
+  }
+}
