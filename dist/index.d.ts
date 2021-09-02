@@ -71,7 +71,8 @@ export default class BIMap {
     set(key: any, val: any): void;
     /**
      * 根据参数中 键 值 更新 BIMap,
-     * 若参数中的键值已存在则以新内容为准
+     * 若参数中的键值已存在则以新内容为准,
+     * 若键值都没有在 BIMap 中找到则新增
      * @param key
      * @param val
      */

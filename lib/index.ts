@@ -1,4 +1,4 @@
-import Tracer from './tracer'
+import Tracer from './modules/tracer'
 
 /**
  * 代表 未找到对应键值对 的 Symbol
@@ -44,7 +44,7 @@ export default class BIMap {
   /**
    * 模式
    */
-  public mode: 'development' | 'production' = 'development';
+  public mode: 'development' | 'production' = 'production';
 
   [Symbol.iterator] = BIMap.prototype.entries;
 
@@ -145,12 +145,16 @@ export default class BIMap {
 
   /**
    * 根据参数中 键 值 更新 BIMap, 
-   * 若参数中的键值已存在则以新内容为准
+   * 若参数中的键值已存在则以新内容为准, 
+   * 若键值都没有在 BIMap 中找到则新增
    * @param key 
    * @param val 
    */
   public update(key: any, val: any): void {
-    if (key === val || (isNotANum(key) && isNotANum(val))) {
+    if (!this.has(key) && !this.has(val)) {
+      this.log(`Neither key nor value are found in BIMap. use method set instead`)
+      return
+    } else if (key === val || (isNotANum(key) && isNotANum(val))) {
       this.log(`Same params ${key} & ${val} not allowed`)
       return
     }
