@@ -1,6 +1,6 @@
 {
   "name": "@ruienger/bimap",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "BIMap: both-direction map construct, it can get properties form both key or value",
   "main": "dist/index.js",
   "repository": {
