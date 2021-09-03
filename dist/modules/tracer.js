@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tracer = void 0;
 /**
  * 键值对描述类
  */
@@ -31,4 +32,4 @@ var Tracer = /** @class */ (function () {
     };
     return Tracer;
 }());
-exports.default = Tracer;
+exports.Tracer = Tracer;

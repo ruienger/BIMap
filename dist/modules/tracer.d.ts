@@ -1,7 +1,7 @@
 /**
  * 键值对描述类
  */
-export default class Tracer {
+export declare class Tracer {
     key: any;
     val: any;
     res: any;

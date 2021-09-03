@@ -1,4 +1,4 @@
-import Tracer from './modules/tracer'
+import { Tracer } from './modules/tracer'
 
 /**
  * 代表 未找到对应键值对 的 Symbol
@@ -30,7 +30,7 @@ function isNotANum(value: any): boolean {
  * @method keys
  * @method values
  */
-export default class BIMap {
+module.exports = class BIMap {
   /**
    * 键值对组数
    */

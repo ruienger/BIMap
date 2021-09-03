@@ -1,6 +1,6 @@
 'use strict'
 const expect = require('chai').expect;
-const BIMap = require('../dist/index').default;
+const BIMap = require('../dist/index');
 
 const testObject = {}
 const testSymbol = Symbol('test')
