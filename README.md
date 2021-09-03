@@ -3,6 +3,8 @@
 BIMap can use key to get value,also use value to get the key
 既可以由键取值，亦可以由值取键
 
+const { BIMap } = require('@ruienger/bimap') // 导入
+
 # BIMap类
 
 `let bimap = new BIMap([ [k1, v1], [k2, v2], ... ])`
@@ -25,8 +27,6 @@ Clear all keys and values
 
 ---
 
-
-
 ### delete(keyOrValue: any): boolean
 
 delete the pair of k/v that contains the params, return if deleted
@@ -38,8 +38,6 @@ delete the pair of k/v that contains the params, return if deleted
 `bimap.delete(k1) => true`
 
 ---
-
-
 
 ### entries(): Genenator<[any, any]>
 
@@ -59,8 +57,6 @@ this method is called by BIMap.[Symbol.iterator] too
 
 ---
 
-
-
 ### forEach(callback: Function, thisArg: unknown): void
 
 callback(value: any, key: any, BIMap: BIMap): unknown
@@ -72,8 +68,6 @@ just like the Array`s forEach, param bimap is the current bimap you use
 `bimap.forEach((key, value, bimap) => {//code here}, this)`
 
 ---
-
-
 
 ### get(keyOrValue: any): any
 
@@ -87,8 +81,6 @@ find a value that match width param keyOrValue then return it,if not,return unde
 
 ---
 
-
-
 ### has(keyOrValue: any): boolean
 
 return if the keyOrValue exists
@@ -100,8 +92,6 @@ return if the keyOrValue exists
 `bimap.has(v1) => true`
 
 ---
-
-
 
 ### set(key: any, value: any): void
 
@@ -116,8 +106,6 @@ set a new pair of key, value. if key/value has exist already or params duplicate
 `bimap.set(k3, v3) => ok`
 
 ---
-
-
 
 ### update(key: any, value: any): void
 
@@ -135,8 +123,6 @@ update a new pair of key, value. if key/value has exist already, delete the orig
 
 ---
 
-
-
 ### values(): Array\<any>
 
 return every value of bimap
@@ -146,8 +132,6 @@ return every value of bimap
 `bimap.values() => [v1, v2]`
 
 ---
-
-
 
 ### keys(): Array\<any>
 

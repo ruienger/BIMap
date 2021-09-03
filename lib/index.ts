@@ -30,7 +30,7 @@ function isNotANum(value: any): boolean {
  * @method keys
  * @method values
  */
-module.exports = class BIMap {
+export class BIMap {
   /**
    * 键值对组数
    */

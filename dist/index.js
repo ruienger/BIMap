@@ -53,8 +53,9 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-var _a, _b;
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.BIMap = void 0;
 var tracer_1 = require("./modules/tracer");
 /**
  * 代表 未找到对应键值对 的 Symbol
@@ -84,219 +85,219 @@ function isNotANum(value) {
  * @method keys
  * @method values
  */
-module.exports = (_b = /** @class */ (function () {
-        function BIMap(storeValue) {
-            var _this = this;
-            if (storeValue === void 0) { storeValue = []; }
-            /**
-             * 键值对组数
-             */
-            this.size = 0;
-            /**
-             * 存储键值对的二维数组
-             */
-            this.mapStore = [];
-            /**
-             * 模式
-             */
-            this.mode = 'production';
-            this[_a] = BIMap.prototype.entries;
-            storeValue.forEach(function (map) {
-                _this.set(map[0], map[1]);
-            });
-        }
+var BIMap = /** @class */ (function () {
+    function BIMap(storeValue) {
+        var _this = this;
+        if (storeValue === void 0) { storeValue = []; }
         /**
-         * 将所有键值对清空
+         * 键值对组数
          */
-        BIMap.prototype.clear = function () {
-            this.mapStore = [];
-            this.size = 0;
-        };
+        this.size = 0;
         /**
-         * 删除参数对应的键值对,不论参数是键还是值
-         * @param keyOrVal
-         * @returns 是否成功删除
+         * 存储键值对的二维数组
          */
-        BIMap.prototype.delete = function (keyOrVal) {
-            var res = this.find(keyOrVal);
-            if (res === unFind) {
-                return false;
-            }
-            this.mapStore.splice(res.index, 1);
-            this.size--;
-            return true;
-        };
+        this.mapStore = [];
         /**
-         * 迭代器入口
-         * @returns 迭代器
+         * 模式
          */
-        BIMap.prototype.entries = function () {
-            var index, size;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        index = 0, size = this.size;
-                        _b.label = 1;
-                    case 1:
-                        if (!(index < size)) return [3 /*break*/, 4];
-                        return [4 /*yield*/, [this.mapStore[index].key, this.mapStore[index].val]];
-                    case 2:
-                        _b.sent();
-                        _b.label = 3;
-                    case 3:
-                        index++;
-                        return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        };
-        /**
-         * 适用于 BIMap 的 forEach
-         * @param callback 回调函数,接受的参数分别为 键,值,当前 BIMap
-         * @param thisArg
-         */
-        BIMap.prototype.forEach = function (callback, thisArg) {
-            var e_1, _b;
-            if (thisArg === void 0) { thisArg = this; }
-            try {
-                for (var _c = __values(this), _d = _c.next(); !_d.done; _d = _c.next()) {
-                    var _e = __read(_d.value, 2), key = _e[0], val = _e[1];
-                    callback.call(thisArg, key, val, this);
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-        };
-        /**
-         * 藉由 键获取值 或者 值获取键
-         * @param keyOrVal
-         * @returns 搜索结果
-         */
-        BIMap.prototype.get = function (keyOrVal) {
-            var res = this.find(keyOrVal);
-            if (res === unFind) {
-                return;
-            }
-            return res.res;
-        };
-        /**
-         * 检查是否存在 参数 对应的键值对
-         * @param keyOrVal
-         * @returns 键值对是否存在
-         */
-        BIMap.prototype.has = function (keyOrVal) {
-            if (this.find(keyOrVal) !== unFind)
-                return true;
+        this.mode = 'production';
+        this[_a] = BIMap.prototype.entries;
+        storeValue.forEach(function (map) {
+            _this.set(map[0], map[1]);
+        });
+    }
+    /**
+     * 将所有键值对清空
+     */
+    BIMap.prototype.clear = function () {
+        this.mapStore = [];
+        this.size = 0;
+    };
+    /**
+     * 删除参数对应的键值对,不论参数是键还是值
+     * @param keyOrVal
+     * @returns 是否成功删除
+     */
+    BIMap.prototype.delete = function (keyOrVal) {
+        var res = this.find(keyOrVal);
+        if (res === unFind) {
             return false;
-        };
-        /**
-         * 设置一对键值对,如果 键 或 值 已经存在则不做修改;
-         * 参数相同不做修改
-         * @param key
-         * @param val
-         */
-        BIMap.prototype.set = function (key, val) {
-            if (this.has(key) || this.has(val)) {
-                this.log("Duplicate key/value has found. " + (this.has(key) ? key : val) + " has existed");
-                return;
+        }
+        this.mapStore.splice(res.index, 1);
+        this.size--;
+        return true;
+    };
+    /**
+     * 迭代器入口
+     * @returns 迭代器
+     */
+    BIMap.prototype.entries = function () {
+        var index, size;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    index = 0, size = this.size;
+                    _b.label = 1;
+                case 1:
+                    if (!(index < size)) return [3 /*break*/, 4];
+                    return [4 /*yield*/, [this.mapStore[index].key, this.mapStore[index].val]];
+                case 2:
+                    _b.sent();
+                    _b.label = 3;
+                case 3:
+                    index++;
+                    return [3 /*break*/, 1];
+                case 4: return [2 /*return*/];
             }
-            else if (key === val || (isNotANum(key) && isNotANum(val))) {
-                this.log("Same params " + key + " & " + val + " not allowed");
-                return;
+        });
+    };
+    /**
+     * 适用于 BIMap 的 forEach
+     * @param callback 回调函数,接受的参数分别为 键,值,当前 BIMap
+     * @param thisArg
+     */
+    BIMap.prototype.forEach = function (callback, thisArg) {
+        var e_1, _b;
+        if (thisArg === void 0) { thisArg = this; }
+        try {
+            for (var _c = __values(this), _d = _c.next(); !_d.done; _d = _c.next()) {
+                var _e = __read(_d.value, 2), key = _e[0], val = _e[1];
+                callback.call(thisArg, key, val, this);
             }
-            this.mapStore.push({
-                key: key,
-                val: val
-            });
-            this.size++;
-        };
-        /**
-         * 根据参数中 键 值 更新 BIMap,
-         * 若参数中的键值已存在则以新内容为准,
-         * 若键值都没有在 BIMap 中找到则新增
-         * @param key
-         * @param val
-         */
-        BIMap.prototype.update = function (key, val) {
-            if (!this.has(key) && !this.has(val)) {
-                this.log("Neither key nor value are found in BIMap. use method set instead");
-                return;
-            }
-            else if (key === val || (isNotANum(key) && isNotANum(val))) {
-                this.log("Same params " + key + " & " + val + " not allowed");
-                return;
-            }
-            this.delete(key);
-            this.delete(val);
-            this.set(key, val);
-        };
-        /**
-         * 返回BIMap中的所有键组成的数组
-         * @returns 键组成的数组
-         */
-        BIMap.prototype.keys = function () {
-            return this.mapStore.map(function (e) { return e.key; });
-        };
-        /**
-         * 返回BIMap中的所有值组成的数组
-         * @returns 值组成的数组
-         */
-        BIMap.prototype.values = function () {
-            return this.mapStore.map(function (e) { return e.val; });
-        };
-        /**
-         * 根据参数寻找对应键值对,不论参数是键还是值
-         * @param keyOrVal
-         * @returns {unFind | Tracer} Symbol 或 Tracer
-         */
-        BIMap.prototype.find = function (keyOrVal) {
-            var e_2, _b;
-            var isNAN = isNotANum(keyOrVal), i = 0;
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
             try {
-                for (var _c = __values(this), _d = _c.next(); !_d.done; _d = _c.next()) {
-                    var _e = __read(_d.value, 2), key = _e[0], val = _e[1];
-                    var tracer = new tracer_1.Tracer(key, val, val, key, i);
-                    if (isNAN) {
-                        if (isNotANum(key)) {
-                            return tracer;
-                        }
-                        else if (isNotANum(val)) {
-                            return tracer.exchangeStruct();
-                        }
-                    }
-                    else if (key === keyOrVal) {
+                if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+    };
+    /**
+     * 藉由 键获取值 或者 值获取键
+     * @param keyOrVal
+     * @returns 搜索结果
+     */
+    BIMap.prototype.get = function (keyOrVal) {
+        var res = this.find(keyOrVal);
+        if (res === unFind) {
+            return;
+        }
+        return res.res;
+    };
+    /**
+     * 检查是否存在 参数 对应的键值对
+     * @param keyOrVal
+     * @returns 键值对是否存在
+     */
+    BIMap.prototype.has = function (keyOrVal) {
+        if (this.find(keyOrVal) !== unFind)
+            return true;
+        return false;
+    };
+    /**
+     * 设置一对键值对,如果 键 或 值 已经存在则不做修改;
+     * 参数相同不做修改
+     * @param key
+     * @param val
+     */
+    BIMap.prototype.set = function (key, val) {
+        if (this.has(key) || this.has(val)) {
+            this.log("Duplicate key/value has found. " + (this.has(key) ? key : val) + " has existed");
+            return;
+        }
+        else if (key === val || (isNotANum(key) && isNotANum(val))) {
+            this.log("Same params " + key + " & " + val + " not allowed");
+            return;
+        }
+        this.mapStore.push({
+            key: key,
+            val: val
+        });
+        this.size++;
+    };
+    /**
+     * 根据参数中 键 值 更新 BIMap,
+     * 若参数中的键值已存在则以新内容为准,
+     * 若键值都没有在 BIMap 中找到则新增
+     * @param key
+     * @param val
+     */
+    BIMap.prototype.update = function (key, val) {
+        if (!this.has(key) && !this.has(val)) {
+            this.log("Neither key nor value are found in BIMap. use method set instead");
+            return;
+        }
+        else if (key === val || (isNotANum(key) && isNotANum(val))) {
+            this.log("Same params " + key + " & " + val + " not allowed");
+            return;
+        }
+        this.delete(key);
+        this.delete(val);
+        this.set(key, val);
+    };
+    /**
+     * 返回BIMap中的所有键组成的数组
+     * @returns 键组成的数组
+     */
+    BIMap.prototype.keys = function () {
+        return this.mapStore.map(function (e) { return e.key; });
+    };
+    /**
+     * 返回BIMap中的所有值组成的数组
+     * @returns 值组成的数组
+     */
+    BIMap.prototype.values = function () {
+        return this.mapStore.map(function (e) { return e.val; });
+    };
+    /**
+     * 根据参数寻找对应键值对,不论参数是键还是值
+     * @param keyOrVal
+     * @returns {unFind | Tracer} Symbol 或 Tracer
+     */
+    BIMap.prototype.find = function (keyOrVal) {
+        var e_2, _b;
+        var isNAN = isNotANum(keyOrVal), i = 0;
+        try {
+            for (var _c = __values(this), _d = _c.next(); !_d.done; _d = _c.next()) {
+                var _e = __read(_d.value, 2), key = _e[0], val = _e[1];
+                var tracer = new tracer_1.Tracer(key, val, val, key, i);
+                if (isNAN) {
+                    if (isNotANum(key)) {
                         return tracer;
                     }
-                    else if (val === keyOrVal) {
+                    else if (isNotANum(val)) {
                         return tracer.exchangeStruct();
                     }
-                    i++;
                 }
-            }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
-            finally {
-                try {
-                    if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
+                else if (key === keyOrVal) {
+                    return tracer;
                 }
-                finally { if (e_2) throw e_2.error; }
+                else if (val === keyOrVal) {
+                    return tracer.exchangeStruct();
+                }
+                i++;
             }
-            return unFind;
-        };
-        /**
-         * 向控制台输出信息, 生产模式则跳过
-         * @param msg
-         */
-        BIMap.prototype.log = function (msg) {
-            if (this.mode === 'development') {
-                console.log('%cBIMap: %c' + msg, 'color: red; background: yellow; font-weight: bold', 'color: blue');
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (_d && !_d.done && (_b = _c.return)) _b.call(_c);
             }
-        };
-        return BIMap;
-    }()),
-    _a = Symbol.iterator,
-    _b);
+            finally { if (e_2) throw e_2.error; }
+        }
+        return unFind;
+    };
+    /**
+     * 向控制台输出信息, 生产模式则跳过
+     * @param msg
+     */
+    BIMap.prototype.log = function (msg) {
+        if (this.mode === 'development') {
+            console.log('%cBIMap: %c' + msg, 'color: red; background: yellow; font-weight: bold', 'color: blue');
+        }
+    };
+    return BIMap;
+}());
+exports.BIMap = BIMap;
+_a = Symbol.iterator;
