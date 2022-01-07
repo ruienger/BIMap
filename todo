@@ -1,0 +1,46 @@
+该 npm 包未使用任何脚手架，属于是开山之作了属于是
+
+√ 1.新建文件夹 bimap_reconstruction
+    预计使用 ts 编码，mocha 测试，最后产出可以使用 commonjs、es6+ 语法导入的 npm 包
+    cwd
+      /dist ------------ 由 tsc 编译 ts 代码产出的 js 代码，作为 npm 包的最终内容
+      /src ------------- 源代码都在这里了，使用 ts 编写
+      /test ------------ 测试用的代码，使用 ts 编写，使用 mocha 执行
+      .eslintrc.js ----- eslint 配置项，使用了针对 ts 的 plugin 和 parser，配置了代码规范
+      .npmignore ------- npm 发包时的忽略项，和包实际功能不挂钩的都应该忽略
+      .package.json ---- npm 对该包的描述，主要的内容是 script 和 export 标签，配置了方便实用的命令集和模块化导入的入口文件
+      .todo ------------ 开山之作的详细踩坑解说
+      .tsconfig.json --- 配置 tsc 的运行参数，主要配置了输出目录 outDir、模块化语法 commonjs 和编译后的 js 语法版本 es2015
+
+    好！理清思路，从空文件夹开始吧！
+
+√ 2.初始化 package.json
+    开始初始化 npm 包，cd 进根目录后使用 `npm init` 指令按部就班的完成问题后得到
+    cwd
+      .package.json
+    
+    它包含了一些基本信息，你包的版本、名称、仓库地址、作者等等，其中对我们来说比较重要的就是
+    -script
+    -export(你可能还没有，加之)
+    -devDependencies(安装开发环境的依赖后会出现)
+    script标签可以用于简化命令行里你需要敲的命令
+    默认的内容就是很好的例子'{ "test": "echo 'xxx' && exit -1" }'，你可以使用 `npm run test` 来快捷的执行 `echo 'xxx' && exit -1`
+    export标签可以指定本npm包再被导入时具体的入口文件
+    例如，别人使用 npm 下载了你的包，使用 require(commonjs) 语法导入，你可以指定{ "commonjs": "./index.js" }让 index.js 作为入口
+     
+  3.初始化 typescript
+    需要使用 ts 编写代码，那就先安装依赖，使用 npm i -D(--save-dev) typescript 安装开发环境的依赖
+    由于稍后开发会用到 node 内置的 require 等内容来进行开发，而 ts 并不识别
+    因此安装 node 环境的 types 以供 ts 识别这些内容，使用 `npm i -D @types/node`
+  4. 完成后需要配置 ts 配置项，使用 node_modules/.bin/tsc.cmd init 初始化并将 target 设为 es2015, outDir 设为 dist √
+  5. 需要使用 eslint 规范化代码，使用 npm i -D eslint √
+  6. 配置 eslint 配置项，使用 node_modules/.bin/eslint.cmd init 初始化并客制化代码规范细则 √
+  7. 在 eslint init 选择 使用 typescript 选项后会自行安装 parser 和 plugin 并在配置文件中应用 √
+  8. 由于该包需要使用 commonjs 语法来进行模块化开发，将 tsconfig.json 中 module 设为 comminjs √
+  9. 需要使用 mocha 以及 node 自带的 assert 断言来进行测试，使用 npm i -D mocha √
+  10. 需要让 mocha 支持测试 ts 文件，使用 npm i -D t-node 安装该包后可与 mocha 命令行工具结合起来直接测 ts 文件 √
+  11. 需要 ts 识别 mocha 注入的某些函数以及 node 自带的全局可用的函数(e.g. require)，使用 npm i -D @types/node @types/mocha √
+  12. 需要简化 ts 编译和 mocha 测试的命令，在 package.json 的 script 标签下添加命令 "compile": "tsc", "test": "mocha -r ts-node/register" √
+  13. 新建文件夹 bimap_reconstruction √
+  14. 新建文件夹 bimap_reconstruction √
+  15. 新建文件夹 bimap_reconstruction √
