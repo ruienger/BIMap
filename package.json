@@ -4,8 +4,11 @@
   "description": "BIMap: bidirectional map construct, it can get properties form both key or value",
   "main": "dist/index.js",
   "scripts": {
-    "compile": "tsc --pretty",
-    "test": "tsc test/index.ts --target es2015 && mocha"
+    "compile": "tsc",
+    "test": "mocha --require ts-node/register test/**/*.ts"
+  },
+  "exports": {
+    "import": "./entry/esmodule.mjs"
   },
   "repository": {
     "type": "git",
@@ -26,7 +29,7 @@
   "homepage": "https://github.com/ruienger/BIMap#readme",
   "devDependencies": {
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.11.12",
+    "@types/node": "^16.11.19",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "eslint": "^8.4.1",

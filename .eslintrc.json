@@ -1,7 +1,5 @@
 {
   "env": {
-    "browser": true,
-    "es2021": true,
     "node": true
   },
   "extends": [
@@ -25,5 +23,6 @@
       "error",
       "never"
     ]
-  }
+  },
+  "ignorePatterns": "dist/*" // 忽略对 dist 文件下内容的检查，因为它们是打包产物
 }
