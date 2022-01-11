@@ -21,19 +21,12 @@ const userBIMap = new BIMap([
 userBIMap.get('admin') // id0001
 userBIMap.get('id0002') // tester
 
-const repeatedBIMap = new BIMap([
-  [1, 2], [2, 3]
-]) // only [1, 2] been settled, if key/value repeated, bimap will pass it
+const repeatedUserBIMap = new BIMap([
+  ['admin', 'id0001'], ['fakeAdmin', 'id0001']
+]) // only ['admin', 'id0001'] been settled, if key/value repeated, bimap will pass it
 
-repeatedBIMap.get(2) // 1
-repeatedBIMap.has(3) // false
-
-// BIMap will treat NaN as a constant
-const NaNBIMap = new BIMap([
-  [NaN, NaN], [NaN, 2]
-]) // only [NaN, 2] been settled, if key === val, bimap will pass it
-
-NaNBIMap.get(NaN) // 2
+repeatedBIMap.get(admin) // id0001
+repeatedBIMap.has(fakeAdmin) // false
 
 ```
 
@@ -45,11 +38,20 @@ BIMap support using undefined as a key or value, but we dont recommend you to do
 
 undefined may cause something that is unexpected
 
+**BIMap treat NaN as the same variable**
+
 ```javascript
 const badBIMap = new BIMap([undefined, 1])
 
 badBIMap.get() // 1
 badBIMap.update() // [undefined, 1] = updated => [undefined, undefined]
+
+// BIMap will treat NaN as a constant
+const NaNBIMap = new BIMap([
+  [NaN, NaN], [NaN, 2]
+]) // only [NaN, 2] been settled, if key === val, bimap will pass it
+
+NaNBIMap.get(NaN) // 2
 
 ```
 
@@ -60,14 +62,14 @@ npm i @ruienger/bimap
 ```
 
 ```javascript
-const BIMap = require('@ruienger/bimap');
+const BIMap = require('@ruienger/bimap'); // or
 import BIMap from '@ruienger/bimap';
 ```
 
 # Constructor
 
 ```javascript
-let bimap = new BIMap([ [k1, v1], [k2, v2], ... ])
+let bimap = new BIMap([[k1, v1], [k2, v2]])
 ```
 
 the param is familiar with Map\`s `Array<[any, any]>`
@@ -156,7 +158,7 @@ bimap.has(v1) // true
 
 ---
 
-### set(key: any, value: any): void
+### set(key: any, value: any): void | \{ key, value }
 
 set a new pair of key, value. if key/value has exist already or params duplicated, warn it
 
@@ -173,17 +175,28 @@ bimap.set(k3, v3) // ok, return { key: k3, val: v3 }
 
 ---
 
-### forceSet(key: any, value: any): void
+### forceSet(key: any, value: any): void | \{ key, value }void
 
-set a new pair of key, value. if key/value has exist already or params duplicated, warn it
+**we dont recommend u use this method unless you know excatly what u doing**
+
+set a new pair of key, value. if key/value has exist already, delete the old pairs and set a new one
+
+if params duplicated, warn it
 
 return the `{ key, value }` you set or undefined if failed
+
+```javascript
+bimap.set(k4, v4)
+bimap.set(k5, v5)
+
+bimap.forceSet(k4, v5) // now [k4, v4], [k5, v5] has been deleted, [k4, v5] is the new one
+```
 
 ---
 
 
 
-### update(key: any, value: any): void
+### update(key: any, value: any): void | \{ key, value }void
 
 update a new pair of key, value.
 
@@ -197,12 +210,12 @@ return the `{ key, value }` you updated or undefined if failed
 bimap.update(NaN, NaN) // warning!!
 
 bimap.update(k1, v2)
-// now [k1, v1] and [k2, v2] has been delete
+// now [k1, v1] and [k2, v2] has been deleted
 // [k1, v2] is the new one
 // returns { key: k1, value: v2 }
 
 bimap.update(k1, v3) // ok
-// now [k1, v2] has been delete
+// now [k1, v2] has been deleted
 // [k1, v3] is the new one
 // returns { key: k1, value: v3 }
 

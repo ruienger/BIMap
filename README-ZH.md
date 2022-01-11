@@ -21,19 +21,12 @@ const userBIMap = new BIMap([
 userBIMap.get('admin') // id0001
 userBIMap.get('id0002') // tester
 
-const repeatedBIMap = new BIMap([
-  [1, 2], [2, 3]
-]) // 只有[1, 2]设置成功, 若key/value有重复，bimap会直接跳过
+const repeatedUserBIMap = new BIMap([
+  ['admin', 'id0001'], ['fakeAdmin', 'id0001']
+]) // 只有['admin', 'id0001']设置成功,如果键值已重复,bimap会跳过它
 
-repeatedBIMap.get(2) // 1
-repeatedBIMap.has(3) // false
-
-// BIMap中 NaN === NaN
-const NaNBIMap = new BIMap([
-  [NaN, NaN], [NaN, 2]
-]) // 只有[NaN, 2]设置成功, 若key === val, bimap会直接跳过
-
-NaNBIMap.get(NaN) // 2
+repeatedBIMap.get(admin) // id0001
+repeatedBIMap.has(fakeAdmin) // false
 ```
 
 # 注意事项
@@ -44,11 +37,20 @@ BIMap 支持使用 undefined 作为键或值, 但我们不建议你这么做
 
 undefined 可能会导致一些不可预料的事发生
 
+**在BIMap中，NaN和NaN视为同一变量**
+
 ```javascript
 const badBIMap = new BIMap([undefined, 1])
 
 badBIMap.get() // 1
 badBIMap.update() // [undefined, 1] = updated => [undefined, undefined]
+
+// BIMap中 NaN === NaN
+const NaNBIMap = new BIMap([
+  [NaN, NaN], [NaN, 2]
+]) // 只有[NaN, 2]设置成功, 若key === val, bimap会直接跳过
+
+NaNBIMap.get(NaN) // 2
 ```
 
 # 安装并使用
@@ -58,14 +60,14 @@ npm i @ruienger/bimap
 ```
 
 ```javascript
-const BIMap = require('@ruienger/bimap');
+const BIMap = require('@ruienger/bimap'); // 或者
 import BIMap from '@ruienger/bimap';
 ```
 
 # 构造函数
 
 ```javascript
-let bimap = new BIMap([ [k1, v1], [k2, v2], ... ])
+let bimap = new BIMap([[k1, v1], [k2, v2]])
 ```
 
 构造函数参数结构于Map一致: `Array<[any, any]>`
@@ -185,7 +187,7 @@ bimap.set(k3, v3) // ok, return { key: k3, val: v3 }
 bimap.set(k4, v4)
 bimap.set(k5, v5)
 
-bimap.forceSet(k4, v5) // now [k4, v4], [k5, v5] deleted, [k4, v5] is the new one
+bimap.forceSet(k4, v5) // [k4, v4], [k5, v5]已删除, [k4, v5]新增入BIMap中
 ```
 
 
