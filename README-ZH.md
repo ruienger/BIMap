@@ -20,6 +20,20 @@ const userBIMap = new BIMap([
 
 userBIMap.get('admin') // id0001
 userBIMap.get('id0002') // tester
+
+const repeatedBIMap = new BIMap([
+  [1, 2], [2, 3]
+]) // 只有[1, 2]设置成功, 若key/value有重复，bimap会直接跳过
+
+repeatedBIMap.get(2) // 1
+repeatedBIMap.has(3) // false
+
+// BIMap中 NaN === NaN
+const NaNBIMap = new BIMap([
+  [NaN, NaN], [NaN, 2]
+]) // 只有[NaN, 2]设置成功, 若key === val, bimap会直接跳过
+
+NaNBIMap.get(NaN) // 2
 ```
 
 # 注意事项
@@ -36,7 +50,6 @@ const badBIMap = new BIMap([undefined, 1])
 badBIMap.get() // 1
 badBIMap.update() // [undefined, 1] = updated => [undefined, undefined]
 ```
-
 
 # 安装并使用
 
@@ -117,7 +130,7 @@ bimap.forEach((key, value, bimap) => {
 
 ---
 
-### get(keyOrValue: any): any
+### get(keyOrValue: any): any | void
 
 找到与参数对应的值返回，没有则返回 undefined
 
@@ -141,9 +154,9 @@ bimap.has(v1) // true
 
 ---
 
-### set(key: any, value: any): void
+### set(key: any, value: any): void | \{ key, value }
 
-设置一对新的键值,如果已存在键或值/参数重复,打印警告
+设置一对新的键值,如果已存在键或值或者两个参数相同,打印警告
 
 成功则返回 `{ key, val }`, 否则返回 undefined
 
@@ -158,7 +171,25 @@ bimap.set(k3, v3) // ok, return { key: k3, val: v3 }
 
 ---
 
-### update(key: any, value: any): void
+### forceSet(key: any, value: any): void | \{ key, value }void
+
+**除非你完全了解你使用该方法的结果，否则我们不建议你用这个方法**
+
+设置一对新键值对,如果已存在键或值,删除旧的包含这些键值的键值对并将新的设置上去
+
+如果两个参数相同，打印警告
+
+成功则返回 `{ key, value }`，否则返回 undefined
+
+```javascript
+bimap.set(k4, v4)
+bimap.set(k5, v5)
+
+bimap.forceSet(k4, v5) // now [k4, v4], [k5, v5] deleted, [k4, v5] is the new one
+```
+
+
+### update(key: any, value: any): void | \{ key, value }
 
 更新一对新的键值
 

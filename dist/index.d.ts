@@ -82,7 +82,7 @@ export default class BIMap {
      * set a new pair of key, value. if key/value has exist already or params duplicated, warn it
      * return the { key, val } if successfully settled, undefined otherwise
      *
-     * 设置一对键值对,如果 键 或 值 已经存在则不做修改;
+     * 设置一对键值对,如果 键 或 值 已经存在则提示使用update;
      * 参数相同不做修改
      * 如果设置成功返回 { key, val },否则 undefined
      * @param key
@@ -94,16 +94,32 @@ export default class BIMap {
         val: BIMapElement;
     } | void;
     /**
+     * set a new pair of key, value. if key/value has exist already, delete the old pairs and set the new one
+     * if params duplicated, warn it
+     * return the { key, val } if successfully settled, undefined otherwise
+     *
+     * 设置一对键值对,如果 键 或 值 已经存在则覆盖;
+     * 参数相同不做修改
+     * 如果设置成功返回 { key, val },否则 undefined
+     * @param key
+     * @param val
+     * @returns \{ key, val } or undefined
+     */
+    forceSet(key: BIMapElement, val: BIMapElement): {
+        key: BIMapElement;
+        val: BIMapElement;
+    } | void;
+    /**
      * update a new pair of key, value.
      * if key/value has exist already, delete the origin pairs and merge them into a new one
      * but if neither the key nor the value are not found in BIMap,we recommend using set()
      *
      * 根据参数中 键 值 更新 BIMap,
      * 若参数中的键值已存在则以新内容为准,
-     * 若键值都没有在 BIMap 中找到则新增
+     * 如果设置成功返回 { key, val },否则 undefined
      * @param key
      * @param val
-     * @returns if successfully updated
+     * @returns \{ key, val } or undefined
      */
     update(key: BIMapElement, val: BIMapElement): {
         key: BIMapElement;

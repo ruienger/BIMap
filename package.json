@@ -8,7 +8,9 @@
     "test": "mocha --require ts-node/register test/**/*.ts"
   },
   "exports": {
-    "import": "./entry/esmodule.mjs"
+    "import": "./entry/esmodule.mjs",
+    "require": ".//entry/commonjs.cjs",
+    "default": "./dist/index.js"
   },
   "repository": {
     "type": "git",

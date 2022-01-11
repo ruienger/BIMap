@@ -20,6 +20,21 @@ const userBIMap = new BIMap([
 
 userBIMap.get('admin') // id0001
 userBIMap.get('id0002') // tester
+
+const repeatedBIMap = new BIMap([
+  [1, 2], [2, 3]
+]) // only [1, 2] been settled, if key/value repeated, bimap will pass it
+
+repeatedBIMap.get(2) // 1
+repeatedBIMap.has(3) // false
+
+// BIMap will treat NaN as a constant
+const NaNBIMap = new BIMap([
+  [NaN, NaN], [NaN, 2]
+]) // only [NaN, 2] been settled, if key === val, bimap will pass it
+
+NaNBIMap.get(NaN) // 2
+
 ```
 
 # Attention
@@ -117,7 +132,7 @@ bimap.forEach((key, value, bimap) => {
 
 ---
 
-### get(keyOrValue: any): any
+### get(keyOrValue: any): any | void
 
 find a value that match with keyOrValue then return it,if not found,return undefined
 
@@ -157,6 +172,16 @@ bimap.set(k3, v3) // ok, return { key: k3, val: v3 }
 ```
 
 ---
+
+### forceSet(key: any, value: any): void
+
+set a new pair of key, value. if key/value has exist already or params duplicated, warn it
+
+return the `{ key, value }` you set or undefined if failed
+
+---
+
+
 
 ### update(key: any, value: any): void
 

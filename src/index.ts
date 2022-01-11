@@ -16,6 +16,20 @@ function isNotANum(value: BIMapElement): boolean {
 }
 
 /**
+ * 判断两个参数是否一致，NaN当做一种变量，不一致则log
+ * @param target
+ * @param source
+ * @returns 是否一致
+ */
+function isTheSame(target: BIMapElement, source: BIMapElement): boolean {
+  if (target === source || (isNotANum(target) && isNotANum(source))) {
+    log(`Same params ${String(target)} & ${String(source)} not allowed`)
+    return true
+  }
+  return false
+}
+
+/**
  * 向控制台输出信息, webpack 生产模式则跳过
  * @param msg
  */
@@ -154,7 +168,7 @@ export default class BIMap {
    * set a new pair of key, value. if key/value has exist already or params duplicated, warn it
    * return the { key, val } if successfully settled, undefined otherwise
    *
-   * 设置一对键值对,如果 键 或 值 已经存在则不做修改;
+   * 设置一对键值对,如果 键 或 值 已经存在则提示使用update;
    * 参数相同不做修改
    * 如果设置成功返回 { key, val },否则 undefined
    * @param key
@@ -163,12 +177,37 @@ export default class BIMap {
    */
   public set(key: BIMapElement, val: BIMapElement): { key: BIMapElement, val: BIMapElement } | void {
     if (this.has(key) || this.has(val)) {
-      log(`Duplicate key/value has found. ${String(this.has(key) ? key : val)} has existed`)
       return undefined
-    } if (key === val || (isNotANum(key) && isNotANum(val))) {
-      log(`Same params ${String(key)} & ${String(val)} not allowed`)
+    } if (isTheSame(key, val)) {
       return undefined
     }
+    const item = {
+      key,
+      val,
+    }
+    this.mapStore.push(item)
+    this.size++
+    return item
+  }
+
+  /**
+   * set a new pair of key, value. if key/value has exist already, delete the old pairs and set the new one
+   * if params duplicated, warn it
+   * return the { key, val } if successfully settled, undefined otherwise
+   *
+   * 设置一对键值对,如果 键 或 值 已经存在则覆盖;
+   * 参数相同不做修改
+   * 如果设置成功返回 { key, val },否则 undefined
+   * @param key
+   * @param val
+   * @returns \{ key, val } or undefined
+   */
+   public forceSet(key: BIMapElement, val: BIMapElement): { key: BIMapElement, val: BIMapElement } | void {
+    if (isTheSame(key, val)) {
+      return undefined
+    }
+    this.delete(key)
+    this.delete(val)
     const item = {
       key,
       val,
@@ -185,17 +224,16 @@ export default class BIMap {
    *
    * 根据参数中 键 值 更新 BIMap,
    * 若参数中的键值已存在则以新内容为准,
-   * 若键值都没有在 BIMap 中找到则新增
+   * 如果设置成功返回 { key, val },否则 undefined
    * @param key
    * @param val
-   * @returns if successfully updated
+   * @returns \{ key, val } or undefined
    */
   public update(key: BIMapElement, val: BIMapElement): { key: BIMapElement, val: BIMapElement } | void {
     if (!this.has(key) && !this.has(val)) {
       log('Neither key nor value are found in BIMap. use method set instead')
       return undefined
-    } if (key === val || (isNotANum(key) && isNotANum(val))) {
-      log(`Same params ${String(key)} & ${String(val)} not allowed`)
+    } if (isTheSame(key, val)) {
       return undefined
     }
     this.delete(key)

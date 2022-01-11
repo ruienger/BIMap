@@ -65,6 +65,7 @@
     .tsconfig.json
     {
       "compilerOptions": {
+        ...
         "target": "es2015",
         "outDir": "dist",
         "module": "CommonJs"
@@ -76,7 +77,7 @@
     test/tsconfig.json
     {
       "extends": "../tsconfig.json",
-      "include": "*", // 让 编辑器 识别test下的文件并给予自动补全等功能
+      "include": "**/*", // 让 编辑器 识别test下的文件并给予自动补全等功能
     }
     对于这部分测试用的代码，我们将不进行编译，而是使用ts-node包直接执行它，详情见第4步
 
@@ -153,6 +154,7 @@
     由于后续可能经常用到tsc和mocha进行编译与测试，因此我们需要添加两个脚本用于编译和测试
     .package.json
     {
+      ...
       "script": {
         "compile": "tsc", // 读取根目录的tsconfig文件并编译，即只编译src下的文件
         "test": "mocha --require ts-node/register test/**/*.ts" // 令mocha使用ts-node的register作编译器执行test下的文件
@@ -162,9 +164,12 @@
     由于该包计划支持commonjs和es6 module，因此需要有他们的入口文件，comminjs已是编译后的模块化语法，es6 module则对应.mjs
     .package.json
     {
+      ...
       "exports": {
-        "import": "./entry/esmodule.mjs" // 文件内容：使用es6 module导出dist的内容
-      },
+        "import": "./entry/esmodule.mjs", // 使用import导入时
+        "require": "./dist/index.js" // 使用require导入时
+        "default": "./dist/index.js", // 使用非import、require导入时
+      }
     }
 
 √ 8.添加说明文件及其他附属文件
