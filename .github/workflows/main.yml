@@ -1,36 +1,37 @@
-# This is a basic workflow to help you get started with Actions
+# 基本的工作流文件，可以让我了解最基本的配置方式
 
 name: CI
 
-# Controls when the workflow will run
+# 用于控制何时工作流会工作
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
+  # 在向 master、release 分支推送内容时自动触发工作流
   push:
-    branches: [ master ]
+    branches: [ master, release-* ]
+  # 在向 master 分支推送合并请求时自动触发工作流
   pull_request:
     branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # 允许手动分发（触发）工作流
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# 一个工作流的运行是由一个以上的工作按顺序、平行执行而组成的
 jobs:
-  # This workflow contains a single job called "build"
+  # 该工作流包含了一个简单的工作 build
   build:
-    # The type of runner that the job will run on
+    # 该工作运行的在什么类型的机器上
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # 步骤是由一系列按顺序执行的任务组成的，这些任务的执行最终完成整个工作
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # 将你的仓库检出到机器的$GITHUB_WORKSPACE目录中，以便下面继续运行
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      # 使用shell指令集编写要完成的任务
+      - name: Lint Code & Compile
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          npm i -D,
+          node_modules/.bin/eslint,
+          npm run compile
+
+      - name: Test Code
+        run: npm test
