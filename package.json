@@ -4,6 +4,7 @@
   "description": "BIMap: bidirectional map construct, it can get properties form both key or value",
   "main": "dist/index.js",
   "scripts": {
+    "lint": "eslint . --ext .ts,.js,.cjs,.mjs,.tsx",
     "compile": "tsc",
     "test": "mocha --require ts-node/register test/**/*.ts"
   },
