@@ -29,8 +29,8 @@ jobs:
       # 使用shell指令集编写要完成的任务
       - name: Compile Code
         run: |
-          npm i -D,
-          npm run lint,
+          npm i -D
+          npm run lint
           npm run compile
 
       - name: Test Code
