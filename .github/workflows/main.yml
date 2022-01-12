@@ -34,4 +34,8 @@ jobs:
           npm run compile
 
       - name: Test Code
-        run: npm test
+        env:
+          PACKAGENAME: '@ruienger/bimap'
+        run: |
+          npm link $PACKAGENAME
+          npm test
