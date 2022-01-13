@@ -1,15 +1,15 @@
 # 基本的工作流文件，可以让我了解最基本的配置方式
 
-name: CI
+name: Automaticlly Code Build
 
 # 用于控制何时工作流会工作
 on:
-  # 在向 master、release 分支推送内容时自动触发工作流
+  # 在向 feature、bugfix 分支推送内容时自动触发工作流
   push:
-    branches: [ master, release-* ]
-  # 在向 master 分支推送合并请求时自动触发工作流
+    branches: [ bugfix-*, feature-* ]
+  # 在向 master、dev 分支推送合并请求时自动触发工作流
   pull_request:
-    branches: [ master ]
+    branches: [ master, dev ]
 
   # 允许手动分发（触发）工作流
   workflow_dispatch:
@@ -25,17 +25,36 @@ jobs:
     steps:
       # 将你的仓库检出到机器的$GITHUB_WORKSPACE目录中，以便下面继续运行
       - uses: actions/checkout@v2
-
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
       # 使用shell指令集编写要完成的任务
-      - name: Compile Code
-        run: |
-          npm i -D
-          npm run lint
-          npm run compile
+      - name: Install Dependencies
+        run: npm i -D
 
       - name: Test Code
-        env:
-          PACKAGENAME: '@ruienger/bimap'
         run: |
-          npm link $PACKAGENAME
+          npm run lint
           npm test
+
+      - name: Compile Code
+        run: npm run compile
+  
+  publish:
+    if: ${{ github.ref_name == 'master' }}
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          npm publish
