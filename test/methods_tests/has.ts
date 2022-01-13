@@ -1,4 +1,4 @@
-import BIMap from '@ruienger/bimap'
+import BIMap from '../../src/index'
 import assert from 'assert'
 
 const testSymbol = Symbol('test')
