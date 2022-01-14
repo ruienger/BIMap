@@ -1,5 +1,7 @@
 # BIMap 双向映射结构
 
+[![Automaticlly Code Build](https://github.com/ruienger/BIMap/actions/workflows/main.yml/badge.svg)](https://github.com/ruienger/BIMap/actions/workflows/main.yml)
+
 [简体中文](https://github.com/ruienger/BIMap/blob/master/README-ZH.md) | English
 
 📌 BIMap allows you get value via the key or get key via the value
@@ -193,8 +195,6 @@ bimap.forceSet(k4, v5) // now [k4, v4], [k5, v5] has been deleted, [k4, v5] is t
 ```
 
 ---
-
-
 
 ### update(key: any, value: any): void | \{ key, value }void
 
