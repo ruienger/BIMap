@@ -1,5 +1,7 @@
 # BIMap 双向映射结构
 
+[![Automaticlly Code Build](https://github.com/ruienger/BIMap/actions/workflows/main.yml/badge.svg)](https://github.com/ruienger/BIMap/actions/workflows/main.yml)
+
 简体中文 | [English](https://github.com/ruienger/BIMap/blob/master/README.md)
 
 📌 BIMap允许你由键取值，亦可以由值取键
@@ -189,7 +191,6 @@ bimap.set(k5, v5)
 
 bimap.forceSet(k4, v5) // [k4, v4], [k5, v5]已删除, [k4, v5]新增入BIMap中
 ```
-
 
 ### update(key: any, value: any): void | \{ key, value }
 
