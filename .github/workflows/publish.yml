@@ -28,28 +28,26 @@ name: Package Publish
 
 # 用于控制何时工作流会工作
 on:
-  pull_request:
-    types: 
-      - closed
-    branches: [ release-* ]
-  push:
-    branches: [ feature-* ]
+  release:
+    types: [ created ]
 
 jobs:
-  build:
+  preper:
     # 使用之前写好的build工作流
-    uses: ruienger/BIMap/.github/workflows/build.yml@main
+    uses: ruienger/BIMap/.github/workflows/build.yml@091306ede92b0beeaa6cd4185269e502b1c454fe
 
   publish:
-    needs: build
+    needs: preper
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-
+          registry-url: 'https://registry.npmjs.org'
       - name: Publish Package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish
+        run: |
+          npm whoami
+          npm publish --access publish
