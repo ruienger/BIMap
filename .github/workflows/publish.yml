@@ -1,0 +1,55 @@
+####################### 用途 ######################
+
+# 主要负责使用以下命令
+# ---------------------------
+# > npm publish
+# ---------------------------
+# 将构建、打包后的js代码发布到npm上
+
+###################################################
+
+####################### 说明 ######################
+
+# 分支说明
+# master ---------- 最新的稳定的代码
+# dev ------------- 最新的经过测试的代码
+# bugfix-* -------- 用于修复bug的代码
+# feature-* ------- 用于开发新功能的代码
+# release-x.y.z --- 用于发布对应版本的包到npm的成品
+# others ---------- 不予维护
+
+# 何时触发该工作流
+# 由管理员新建release-x.y.z分支时触发
+# 测试代码、编译代码、发布package
+
+###################################################
+
+name: Package Publish
+
+# 用于控制何时工作流会工作
+on:
+  pull_request:
+    types: 
+      - closed
+    branches: [ release-* ]
+  push:
+    branches: [ feature-* ]
+
+jobs:
+  build:
+    # 使用之前写好的build工作流
+    uses: ruienger/BIMap/.github/workflows/build.yml@main
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Publish Package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish

@@ -1,0 +1,64 @@
+####################### 用途 ######################
+
+# 主要负责使用以下命令
+# ---------------------------
+# > npm test
+# > npm run compile
+# ---------------------------
+# 来构建、打包ts代码到js代码
+
+###################################################
+
+####################### 说明 ######################
+
+# 分支说明
+# master ---------- 最新的稳定的代码
+# dev ------------- 最新的经过测试的代码
+# bugfix-* -------- 用于修复bug的代码
+# feature-* ------- 用于开发新功能的代码
+# release-x.y.z --- 用于发布对应版本的包到npm的成品
+# others ---------- 不予维护
+
+# 何时触发该工作流
+# 向repo推送bugfix-*、feature-*分支时触发
+# 确保代码通过测试
+# 向master、dev分支合并pull request时触发
+# 确保代码通过测试
+
+###################################################
+
+name: Code Build
+
+# 用于控制何时工作流会工作
+on:
+  push:
+    branches: [ bugfix-*, feature-* ]
+  pull_request:
+    branches: [ master, dev ]
+
+  # 允许手动分发（触发）工作流
+  workflow_dispatch:
+  # 该工作流允许复用（用于publish前置检查）
+  workflow_call:
+
+# 一个工作流的运行是由一个以上的工作按顺序或平行的执行而组成的
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 将你的仓库检出到机器的$GITHUB_WORKSPACE目录中，以便下面继续运行
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      # 使用shell指令集编写要完成的任务
+      - name: Install Dependencies
+        run: npm i -D
+
+      - name: Test Code
+        run: |
+          npm run lint
+          npm test
+
+      - name: Compile Code
+        run: npm run compile
